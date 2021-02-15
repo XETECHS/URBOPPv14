@@ -2,7 +2,7 @@
 
 {
     'name': 'Salome Quote',
-    'version': '1.0',
+    'version': '1.0.1',
     'author': 'Xetechs GT',
     'website': 'https://xetechs.com',
     'license': 'LGPL-3',
