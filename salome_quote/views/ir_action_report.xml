@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="paperformat_salome_quote_report" model="report.paperformat">
+            <field name="name">Salome Quote</field>
+            <field name="format">Letter</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="report_type">qweb-html</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">55</field>
+            <field name="dpi">80</field>
+        </record>
+
+        <report id="salome_quote_report"
+            model="sale.order"
+            string="Salome Quote"
+            name="salome_quote.salome_quote_template"
+            file="salome_quote.salome_quote_template"
+            report_type="qweb-pdf"
+            paperformat='paperformat_salome_quote_report'
+        />
+
+    </data>
+</odoo>

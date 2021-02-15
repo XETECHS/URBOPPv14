@@ -1,0 +1,80 @@
+#header {
+    color: white;
+    background-image: url('../img/IMG_20201226_111441.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top center;
+    height: 1100px;
+    position: relative;
+}
+.primary-color {
+    background-color:#a28671;
+}
+
+.secondary-color {
+    background-color: #ab9e9c;
+}
+
+.backdrop {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.5;
+}
+
+
+.header-content {
+    z-index: 2;
+}
+
+
+.mr20px {
+    margin-right: 20px;
+}
+
+.ml20px {
+    margin-left: 20px;
+}
+
+h1 {
+    font-weight: 600;
+    font-size:65pt
+}
+
+#header h1,
+#header h2 {
+    color: white;
+    position: absolute;
+    top:180px;
+    left:160px;
+}
+
+#header h2.garden {
+    font-size:120pt;
+    top:320px;
+    left:300px;
+}
+
+
+.vert-separator-line {
+    height: 150px;
+    width: 2px;
+    background-color: white;
+    position:absolute;
+    left:410px;
+    top:520px;
+}
+
+#header-companies {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-salome {
+    height:60px;
+    width:100%;
+    position:absolute;
+    bottom:-160px;
+}

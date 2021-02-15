@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+      <template id="assets_backend_salome_quote"  inherit_id="web.report_assets_common">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/salome_quote/static/src/css/style.css"/>
+            <link href="/salome_quote/static/src/css/fonts.less" rel="stylesheet" type="text/less"/>
+        </xpath>
+      </template>
+
+        <template id="salome_quote_template">
+          <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+              <t t-call="web.basic_layout">
+                <div class="page MontserratExtraLight">
+                  <div class="row" id="header">
+                    <div class="backdrop"/>
+                    <div class="container">
+                        <h1 class="Gilroy">
+                            Tu hogar con 40,000 m<sub>2</sub>de
+                        </h1>
+                        <h2 class="garden signature">jardin</h2>
+                        <div class="vert-separator-line"/>
+                        <img src="/salome_quote/static/src/img/logo_torre_carmen.png" style="max-height: 200px;position:absolute;top:665px;left:250px;"/>
+                        <img src="/salome_quote/static/src/img/logo_urbop.png" style="max-height: 50px;position:absolute;top:900px;left:230px;"/>
+                        <div class="vert-separator-line" style="top:900px;height: 50px;"/>
+                        <h1 style="top:905px;left:435px;font-size:25pt;">SALOMÉ</h1>
+                        <h4 class="ml20px">.</h4>
+                        <div id="header-companies">
+                            
+                        </div>
+                    </div>
+                  </div>
+
+                  <div style="page-break-after: always;"/>
+                  <div class="row primary-color">
+                    <div class="col-3" style="position:relative">
+                      <img src="/salome_quote/static/src/img/eucalyptus.png" style="max-height: 200px;position:absolute;left:-70px;top:-20px;"/>
+                    </div>
+                    <div class="col-9">
+                      <h3 style="padding-top:10px;color:white;;margin-left:30px;">Que gusto por verte por acá</h3>
+                      <img src="/salome_quote/static/src/img/logo_torre_carmen.png" style="max-height: 150px;margin-left:90px;"/>
+                    </div>
+                  </div>
+                  <div class="row primary-color">
+                    <div class="col-2 text-right text-white">
+                      <h5>Hola:</h5>
+                    </div>
+                    <div class="col-6">
+                      <div style="background-color: white;witdh:100%;padding:5px;">
+                        Abraham Jesús
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row primary-color p-2">
+                    <div class="col-2 text-right text-white">
+                      <h5>Fecha</h5>
+                    </div>
+                    <div class="col-3">
+                      <div style="background-color: white;witdh:100%;padding:5px;">
+                        12/01/21
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row primary-color" style="position:relative;">
+                    <div class="secondary-color col-10 text-center text-white" style="top:15px;left:75px;font-size:20pt;">Tu hogar con 40,000 m<sub>2</sub>de parque</div>
+                  </div>
+                  
+                  <div class="row" style="padding-top:30px;height:304px;">
+                    <div class="col-6 text-right">
+                      <t t-set="planta" t-value="'astral' if 'astral' in o.pricelist_id.name.lower() else 'universal'"/>
+                      <t t-set="area" t-value="o.order_line[0].product_id.aream2"/>
+                      <img t-att-alt="area" t-att-src="'/salome_quote/static/src/img/salome_%s_%s.png'%(planta, area)" style="max-height: 250px;max-width:400px;"/>
+                    </div>
+                    <div class="col-6">
+                      <t t-set="planta" t-value="'futuro' if 'futuro' in o.pricelist_id.name.lower() else planta"/>
+                      <table width="80%">
+                        <thead>
+                          <tr>
+                            <th colspan="3">Tu Elección</th>
+                          </tr>
+                          <tr style="background-color:#E0E0E0;">
+                            <th>Tamaño x M2</th>
+                            <th class="text-center">Plan</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-center">31 m2<i class="fa fa-check" t-if="area=='31'"/></td>
+                            <td class="text-left">Universal<i class="fa fa-check" t-if="planta=='universal'"/></td>
+                          </tr>
+                          <tr>
+                            <td class="text-center">47 m2<i class="fa fa-check" t-if="area=='47'"/></td>
+                            <td class="text-left">Astral<i class="fa fa-check" t-if="planta=='astral'"/></td>
+                          </tr>
+                          <tr>
+                            <td class="text-center">67 m2<i class="fa fa-check" t-if="area=='67'"/></td>
+                            <td class="text-left">Futuro<i class="fa fa-check" t-if="planta=='futuro'"/></td>
+                          </tr>
+                          <tr>
+                            <td class="text-center">79 m2<i class="fa fa-check" t-if="area=='79'"/></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10 offset-1">
+                      <table width="100%">
+                        <thead>
+                          <th colspan="2" class="primary-color pl-2 text-white">Etapas de Enganche</th>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Reserva</td>
+                            <td class="text-right" t-esc="'Q.  %.2f'%float(896513)"/>
+                          </tr>
+                          <tr>
+                            <td>Valor del engache del 10%</td>
+                            <td class="text-right" t-esc="'Q.  %.2f'%float(896513)"/>
+                          </tr>
+                          <tr>
+                            <td>Cuota mensual del enganche durante <span>24</span> meses</td>
+                            <td class="text-right" t-esc="'Q.  %.2f'%float(896513)"/>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-10 offset-1">
+                      <table width="100%">
+                        <thead>
+                          <th colspan="2" class="primary-color pl-2 text-white">Etapas de crédito bancario</th>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Valor del credito del 90%</td>
+                            <td class="text-right" t-esc="'Q.  %.2f'%float(896513)"/>
+                          </tr>
+                          <tr>
+                            <td>Cuota mensual por financiar durante <span>24</span> años con una tasa del 7.26%</td>
+                            <td class="text-right" t-esc="'Q.  %.2f'%float(896513)"/>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                    
+                  <div class="row">
+                    <div class="col-10 offset-1">
+                      <table width="100%">
+                        <thead>
+                          <th colspan="2" class="primary-color pl-2 text-white">Valores del apartamento</th>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Valor total del apartamento con impuesto</td>
+                            <td class="text-right" t-esc="'Q.  %.2f'%float(896513)"/>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div style="width:100%;height:3px;margin-top:5px;" class="primary-color"/>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-6 offset-6 p-0">
+                        <table width="80%">
+                          <thead>
+                            <tr>
+                              <th colspan="2" style="font-size:16pt;">Importante tener en cuenta</th>
+                            </tr>
+                          </thead>
+                          <tboby>
+                            <tr>
+                              <td>Cuota de mantenimiento</td>
+                              <td class="text-right" t-esc="'Q.  %.2f'%float(896513)"/>
+                            </tr>
+                            <tr>
+                              <td>Cuota mensual isui</td>
+                              <td class="text-right" t-esc="'Q.  %.2f'%float(896513)"/>
+                            </tr>
+                          </tboby>
+                        </table>
+                        <div style="width:-50%;height:3px;margin-top:5px;" class="primary-color"/>
+                      </div>
+                    </div>
+                    
+                    <div class="row" style="position:relative;">
+                      <div class="row footer-salome primary-color pt-2 m-0">
+                        <div class="col-4 text-center">
+                          <img src="/salome_quote/static/src/img/logo_urbop.png" style="max-height: 40px;"/>
+                        </div>
+                        <div class="col-4 text-center text-white">Terminos y condiciones</div>
+                        <div class="col-4 text-center text-white">
+                          <h1 style="font-size:25pt;">SALOMÉ</h1>
+                        </div>
+                      </div>
+                    </div>
+                  
+                </div>
+              </t>
+            </t>
+          </t>
+        </template>
+    </data>
+</odoo>
