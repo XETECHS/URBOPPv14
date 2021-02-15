@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 {
     'name': 'Salome Quote',
     'version': '1.0.1',
