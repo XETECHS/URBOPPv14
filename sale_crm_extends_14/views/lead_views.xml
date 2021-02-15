@@ -26,7 +26,7 @@
 
 
         <menuitem name="UTMs" id="marketing_crm_extend" parent="crm.crm_menu_root"/>
-        <menuitem action="utm.utm_campaign_act" id="menu_utm_campaign_act" sequence="4" parent="marketing_crm_extend"/>
+        <menuitem action="utm.utm_campaign_action" id="menu_utm_campaign_act" sequence="4" parent="marketing_crm_extend"/>
         <menuitem action="utm.utm_medium_action" id="menu_utm_medium" parent="marketing_crm_extend" sequence="4"/>
         <menuitem action="utm.utm_source_action" id="menu_utm_source" parent="marketing_crm_extend" sequence="4"/>
         
