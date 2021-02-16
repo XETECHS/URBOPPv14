@@ -1,0 +1,190 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <!-- Mail template are declared in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="0">
+        <!--Email template -->
+        <record id="email_template_apto_CETUS" model="mail.template">
+            <field name="name">APTO CETUS: Send by email</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="email_from">${(object.activity_user_id.email or object.company_id.email_formatted) |safe}</field>
+            <field name="email_to">${(object.email_from)|safe},info@urbop.gt</field>
+            <field name="subject">APARTAMENTO CETUS</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;font-size: 13px;">
+    <p>Hola ${object.contact_name}</p>
+    <br/>
+    <p>¡Bienvenido a MIRA zona 10!</p>
+    <br/>
+    <p>Te presento a <b>CETUS</b>, el apartamento de <b>3 habitaciones</b> que usted escogió. <b>
+        Tiene vistas espectaculares hacia los volcanes o la reserva natural. ¡Les encantará!</b>
+    </p>
+    <p>Me estaré comunicando contigo para que me puedas contar un poco más de lo que estás buscando, 
+    así te preparamos tu información. </p>
+    <br/>
+
+    <p>¡Hasta pronto!</p>
+    <br/>
+
+    <p>Maria Jose Quevedo<br/> +502 3203-3857</p>
+</div>
+            </field>
+            <field name="lang">${object.company_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    <record id="email_template_apto_CETI" model="mail.template">
+            <field name="name">APTO CETI: Send by email</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="email_from">${(object.activity_user_id.email or object.company_id.email_formatted) |safe}</field>
+            <field name="email_to">${(object.email_from)|safe},info@urbop.gt</field>
+            <field name="subject">APARTAMENTO CETI</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;font-size: 13px;">
+    <p>Hola ${object.contact_name}</p>
+    <br/>
+    <p>¡Bienvenido a MIRA zona 10!</p>
+    <br/>
+    <p>Te presento a <b>CETI</b>, el apartamento de <b>3 habitaciones</b> que usted escogió. <b>
+        Tiene vistas espectaculares hacia los volcanes o la reserva natural. ¡Les encantará!</b>
+    </p>
+    <p>Me estaré comunicando contigo para que me puedas contar un poco más de lo que estás buscando, 
+    así te preparamos tu información. </p>
+    <br/>
+
+    <p>¡Hasta pronto!</p>
+    <br/>
+
+    <p>Maria Jose Quevedo<br/> +502 3203-3857</p>
+</div>
+            </field>
+            <field name="lang">${object.company_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+
+    <record id="email_template_apto_DELTA" model="mail.template">
+            <field name="name">APTO DELTA: Send by email</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="email_from">${(object.activity_user_id.email or object.company_id.email_formatted) |safe}</field>
+            <field name="email_to">${(object.email_from)|safe},info@urbop.gt</field>
+            <field name="subject">APARTAMENTO DELTA</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;font-size: 13px;">
+    <p>Hola ${object.contact_name}</p>
+    <br/>
+    <p>¡Bienvenido a MIRA zona 10!</p>
+    <br/>
+    <p>Te presento a <b>DELTA</b>, el apartamento de <b>3 habitaciones</b> que usted escogió. <b>
+        Tiene vistas espectaculares hacia los volcanes o la reserva natural. ¡Les encantará!</b>
+    </p>
+    <p>Me estaré comunicando contigo para que me puedas contar un poco más de lo que estás buscando, 
+    así te preparamos tu información. </p>
+    <br/>
+
+    <p>¡Hasta pronto!</p>
+    <br/>
+
+    <p>Maria Jose Quevedo<br/> +502 3203-3857</p>
+</div>
+            </field>
+            <field name="lang">${object.company_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    <record id="email_template_apto_TAU" model="mail.template">
+            <field name="name">APTO TAU: Send by email</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="email_from">${(object.activity_user_id.email or object.company_id.email_formatted) |safe}</field>
+            <field name="email_to">${(object.email_from)|safe},info@urbop.gt</field>
+            <field name="subject">APARTAMENTO TAU</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;font-size: 13px;">
+    <p>Hola ${object.contact_name}</p>
+    <br/>
+    <p>¡Bienvenido a MIRA zona 10!</p>
+    <br/>
+    <p>Te presento a <b>TAU</b>, el apartamento de <b>2 habitaciones</b> que usted escogió. <b>
+        Tiene vistas espectaculares hacia los volcanes o la reserva natural. ¡Les encantará!</b>
+    </p>
+    <p>Me estaré comunicando contigo para que me puedas contar un poco más de lo que estás buscando, 
+    así te preparamos tu información. </p>
+    <br/>
+
+    <p>¡Hasta pronto!</p>
+    <br/>
+
+    <p>Maria Jose Quevedo<br/> +502 3203-3857</p>
+</div>
+            </field>
+            <field name="lang">${object.company_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    <record id="email_template_apto_KAI" model="mail.template">
+            <field name="name">APTO KAI: Send by email</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="email_from">${(object.activity_user_id.email or object.company_id.email_formatted) |safe}</field>
+            <field name="email_to">${(object.email_from)|safe},info@urbop.gt</field>
+            <field name="subject">APARTAMENTO KAI</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;font-size: 13px;">
+    <p>Hola ${object.contact_name}</p>
+    <br/>
+    <p>¡Bienvenido a MIRA zona 10!</p>
+    <br/>
+    <p>Te presento a <b>KAI</b>, el apartamento de <b>2 habitaciones</b> que usted escogió. <b>
+        Tiene vistas espectaculares hacia los volcanes o la reserva natural. ¡Les encantará!</b>
+    </p>
+    <p>Me estaré comunicando contigo para que me puedas contar un poco más de lo que estás buscando, 
+    así te preparamos tu información. </p>
+    <br/>
+
+    <p>¡Hasta pronto!</p>
+    <br/>
+
+    <p>Maria Jose Quevedo<br/> +502 3203-3857</p>
+</div>
+            </field>
+            <field name="lang">${object.company_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    <record id="email_template_apto_MENKAR" model="mail.template">
+            <field name="name">APTO MENKAR: Send by email</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="email_from">${(object.activity_user_id.email or object.company_id.email_formatted) |safe}</field>
+            <field name="email_to">${(object.email_from)|safe},info@urbop.gt</field>
+            <field name="subject">APARTAMENTO MENKAR</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;font-size: 13px;">
+    <p>Hola ${object.contact_name}</p>
+    <br/>
+    <p>¡Bienvenido a MIRA zona 10!</p>
+    <br/>
+    <p>Te presento a <b>MENKAR</b>, el apartamento de <b>3 habitaciones</b> que usted escogió. <b>
+        Tiene vistas espectaculares hacia los volcanes o la reserva natural. ¡Les encantará!</b>
+    </p>
+    <p>Me estaré comunicando contigo para que me puedas contar un poco más de lo que estás buscando, 
+    así te preparamos tu información. </p>
+    <br/>
+
+    <p>¡Hasta pronto!</p>
+    <br/>
+
+    <p>Maria Jose Quevedo<br/> +502 3203-3857</p>
+</div>
+            </field>
+            <field name="lang">${object.company_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

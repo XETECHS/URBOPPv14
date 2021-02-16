@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="crm_case_form_view_leads" model="ir.ui.view">
+            <field name="name">crm.lead.form.lead.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
+            <field name="arch" type="xml">
+                <field name="tag_ids" position="after">
+                    <field name="apartment" required="1"/>
+                </field>
+            </field>
+        </record>
+    
+    </data>
+
+</odoo>
