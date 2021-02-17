@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_contract_view_form_inherit" model="ir.ui.view">
+        <field name="name">view.hr.contract.form.inherit</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <div name="wage" position="after">
+                <label for="bonification_amount"/>
+                <div class="o_row" name="div_bonification_amount">
+                    <field name="bonification_amount" nolabel="1"/>
+                    <span>/ mes</span>
+                </div>
+                <label for="extra_bonification_amount"/>
+                <div class="o_row" name="div_extra_bonification_amount">
+                    <field name="extra_bonification_amount" nolabel="1"/>
+                    <span>/ mes</span>
+                </div>
+                <label for="extra_amount"/>
+                <div class="o_row" name="div_extra_amount">
+                    <field name="extra_amount" nolabel="1"/>
+                    <span>/ mes</span>
+                </div>
+                <label for="total_wage"/>
+                <div class="o_row" name="div_total_wage">
+                    <field name="total_wage" nolabel="1"/>
+                    <span>/ mes</span>
+                </div>
+            </div>
+        </field>
+    </record>
+
+
+
+</odoo>

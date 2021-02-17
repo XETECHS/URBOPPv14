@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tipo de Estructura-->
+    <record id="structure_type_employee_gt" model="hr.payroll.structure.type">
+            <field name="name">Empleado</field>
+            <field name="wage_type">monthly</field>
+            <field name="country_id" ref="base.gt"/>
+    </record>
+    <!--Categoria Reglas Salariales GT-->
+    <record id="salary_rule_category_001" model="hr.salary.rule.category">
+        <field name="name">Base</field>
+        <field name="code">BASIC</field>
+    </record>
+    <record id="salary_rule_category_002" model="hr.salary.rule.category">
+        <field name="name">Ingresos</field>
+        <field name="code">ING</field>
+    </record>
+    <record id="salary_rule_category_003" model="hr.salary.rule.category">
+        <field name="name">Bruto</field>
+        <field name="code">GROSS</field>
+    </record>
+    <record id="salary_rule_category_004" model="hr.salary.rule.category">
+        <field name="name">Deduccion</field>
+        <field name="code">DED</field>
+    </record>
+    <record id="salary_rule_category_005" model="hr.salary.rule.category">
+        <field name="name">Neto</field>
+        <field name="code">NET</field>
+    </record>
+    <record id="salary_rule_category_006" model="hr.salary.rule.category">
+        <field name="name">Prestaciones Laborales</field>
+        <field name="code">PTL</field>
+    </record>
+
+    <record id="salary_rule_category_007" model="hr.salary.rule.category">
+        <field name="name">Otra Categoria</field>
+        <field name="code">OTRA</field>
+    </record>
+
+    <record id="salary_rule_category_008" model="hr.salary.rule.category">
+        <field name="name">Provisiones Laborales</field>
+        <field name="code">PROLAB</field>
+    </record>
+    
+    <!--Esctructura Salariales GT-->
+    <record id="structure_worker_gt_mensual" model="hr.payroll.structure">
+        <field name="name">Nomina Empleado Mensual</field>
+        <field name="type_id" ref="structure_type_employee_gt"/>
+        <field name="schedule_pay">monthly</field>
+        <field name="country_id" ref="base.gt"/>
+    </record>
+
+    <record id="structure_worker_gt_quincenal" model="hr.payroll.structure">
+        <field name="name">Nomina Empleado Quincenal</field>
+        <field name="type_id" ref="structure_type_employee_gt"/>
+        <field name="schedule_pay">bi-weekly</field>
+        <field name="country_id" ref="base.gt"/>
+    </record>
+
+    <!--Reglas Salariales GT-->
+
+    <record id="hr_salary_rule_base" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">BASIC</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_001"/>
+        <field name="name">Salario Base</field>
+        <field name="sequence" eval="1"/>
+        <field name="amount_python_compute">result = contract.wage</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_total_ingresos" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">GROSS</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_003"/>
+        <field name="name">Total Ingresos</field>
+        <field name="sequence" eval="6"/>
+        <field name="amount_python_compute">result = categoires.BASIC + categories.ALW</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_total_deducciones" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">TDESC</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_004"/>
+        <field name="name">Total Deducciones</field>
+        <field name="sequence" eval="500"/>
+        <field name="amount_python_compute">result = categories.DED</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_liquido_recibir" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">NET</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_005"/>
+        <field name="name">Liquido a Recibir</field>
+        <field name="sequence" eval="1002"/>
+        <field name="amount_python_compute">result = categories.GROSS - TDESC</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_bonificacion_decreto" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">B250</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_002"/>
+        <field name="name">(+) Bonificacion Incentivo</field>
+        <field name="sequence" eval="5"/>
+        <field name="amount_python_compute">result = contract.bonification_amount</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_bonificacion_adicional" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">BAD</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_002"/>
+        <field name="name">(+) Bonificaciones Adicionales</field>
+        <field name="sequence" eval="5"/>
+        <field name="amount_python_compute">result = contract.extra_bonification_amount</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_otros_ingresos" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">OING</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_002"/>
+        <field name="name">(+) Otros Ingresos</field>
+        <field name="sequence" eval="5"/>
+        <field name="amount_python_compute">result = contract.extra_amount</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_valor_hr_extra" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">VHE</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_007"/>
+        <field name="name">Valor Hora Extra</field>
+        <field name="sequence" eval="5"/>
+        <field name="amount_python_compute">result = (((contract.wage / 30)/8)*1.50)</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_qty_hr_extra" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">CHE</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_007"/>
+        <field name="name">Cantidad Hora Extra</field>
+        <field name="sequence" eval="7"/>
+        <field name="amount_python_compute">result = inputs.CANH.amount</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+     <!-- Imputs en Estructura Salarial-->
+
+    <record id="input_cantidad_hr_extra" model="hr.payslip.input.type">
+        <field name="name">Cantidad Horas Extras</field>
+        <field name="code">CANH</field>
+        <field name="struct_ids" eval="[(4, ref('structure_worker_gt_mensual')), (4, ref('structure_worker_gt_quincenal'))]"/>
+    </record>
+    <record id="input_anticipo_sobre_sueldo_1" model="hr.payslip.input.type">
+        <field name="name">Anticipo S/Sueldo</field>
+        <field name="code">ANTICIPO</field>
+        <field name="struct_ids" eval="[(4, ref('structure_worker_gt_mensual')), (4, ref('structure_worker_gt_quincenal'))]"/>
+    </record>
+
+    <record id="hr_salary_rule_total_hr_extra" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">CHE</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_002"/>
+        <field name="name">(+) Total Horas Extras</field>
+        <field name="sequence" eval="10"/>
+        <field name="amount_percentage_base">((VHE)*(CHE))</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">100.00</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_anticipo_sueldo" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">ANTS/S</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_004"/>
+        <field name="name">(-) Anticipos S/Sueldos1</field>
+        <field name="sequence" eval="44"/>
+        <field name="amount_python_compute">result = inputs.ANTICIPO.amount</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_isr" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">ISR</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_004"/>
+        <field name="name">(-) ISR Quincenal</field>
+        <field name="sequence" eval="43"/>
+        <field name="amount_python_compute">if contract.wage >4000:
+        result = contract.wage * 0.05
+    else:
+        result = 0</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_igss" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">IGSS</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_004"/>
+        <field name="name">(-) IGSS Laboral</field>
+        <field name="sequence" eval="48"/>
+        <field name="amount_python_compute">result = contract.wage * 0.0483</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <!-- Proviciones Laborales-->
+    <record id="hr_salary_rule_provision_vacaciones" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">ANTVACA</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_008"/>
+        <field name="name">Vacaciones</field>
+        <field name="sequence" eval="30"/>
+        <field name="amount_percentage_base">contract.wage</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">4.17</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_provision_indemnizacion" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">INDEM</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_008"/>
+        <field name="name">Indemnizacion</field>
+        <field name="sequence" eval="30"/>
+        <field name="amount_percentage_base">contract.wage</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">8.3333</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_provision_aguinaldo" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">AGUI</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_008"/>
+        <field name="name">Aguinaldo</field>
+        <field name="sequence" eval="30"/>
+        <field name="amount_percentage_base">contract.wage</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">8.3333</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <record id="hr_salary_rule_provision_bono14" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">B14</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_008"/>
+        <field name="name">Bono 14</field>
+        <field name="sequence" eval="30"/>
+        <field name="amount_percentage_base">contract.wage</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">8.3333</field>
+        <field name="struct_id" ref="structure_worker_gt_mensual"/>
+    </record>
+
+    <!--Reglas Salariales Quincenales-->
+     <record id="hr_salary_rule_base_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">BASIC</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_001"/>
+        <field name="name">Salario Base</field>
+        <field name="sequence" eval="1"/>
+        <field name="amount_python_compute">result = (contract.wage) / 2</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+
+    <record id="hr_salary_rule_total_ingresos_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">GROSS</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_003"/>
+        <field name="name">Total Ingresos</field>
+        <field name="sequence" eval="6"/>
+        <field name="amount_python_compute">result = (categoires.BASIC + categories.ALW)</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_total_deducciones_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">TDESC</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_004"/>
+        <field name="name">Total Deducciones</field>
+        <field name="sequence" eval="500"/>
+        <field name="amount_python_compute">result = (categories.DED)</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_liquido_recibir_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">NET</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_005"/>
+        <field name="name">Liquido a Recibir</field>
+        <field name="sequence" eval="1002"/>
+        <field name="amount_python_compute">result = (categories.GROSS - TDESC)</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_bonificacion_decreto_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">B250</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_002"/>
+        <field name="name">(+) Bonificacion Incentivo</field>
+        <field name="sequence" eval="5"/>
+        <field name="amount_python_compute">result = (contract.bonification_amount) / 2</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+    
+
+    <record id="hr_salary_rule_bonificacion_adicional_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">BAD</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_002"/>
+        <field name="name">(+) Bonificaciones Adicionales</field>
+        <field name="sequence" eval="5"/>
+        <field name="amount_python_compute">result = (contract.extra_bonification_amount) / 2</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_otros_ingresos_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">OING</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_002"/>
+        <field name="name">(+) Otros Ingresos</field>
+        <field name="sequence" eval="5"/>
+        <field name="amount_python_compute">result = (contract.extra_amount) / 2</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_valor_hr_extra_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">VHE</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_007"/>
+        <field name="name">Valor Hora Extra</field>
+        <field name="sequence" eval="5"/>
+        <field name="amount_python_compute">result = (((contract.wage / 30)/8)*1.50)</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_qty_hr_extra_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">CHE</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_007"/>
+        <field name="name">Cantidad Hora Extra</field>
+        <field name="sequence" eval="7"/>
+        <field name="amount_python_compute">result = (inputs.CANH.amount)</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_total_hr_extra_quincenal" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">THE</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_002"/>
+        <field name="name">(+) Total Horas Extras</field>
+        <field name="sequence" eval="10"/>
+        <field name="amount_percentage_base">((VHE)*(CHE))</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">100.00</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_anticipo_sueldo_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">ANTS/S</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_004"/>
+        <field name="name">(-) Anticipos S/Sueldos1</field>
+        <field name="sequence" eval="44"/>
+        <field name="amount_python_compute">result = inputs.ANTICIPO.amount</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_isr_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">ISR</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_004"/>
+        <field name="name">(-) ISR Quincenal</field>
+        <field name="sequence" eval="43"/>
+        <field name="amount_python_compute">if contract.wage >4000:
+        result = (contract.wage * 0.05) / 2
+    else:
+        result = 0</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_igss_quincenal" model="hr.salary.rule">
+        <field name="amount_select">code</field>
+        <field name="code">IGSS</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="category_id" ref="salary_rule_category_004"/>
+        <field name="name">(-) IGSS Laboral</field>
+        <field name="sequence" eval="48"/>
+        <field name="amount_python_compute">result = (contract.wage * 0.0483) / 2</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <!-- Proviciones Laborales Quincenales-->
+    <record id="hr_salary_rule_provision_vacaciones_quincenales" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">ANTVACA</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_008"/>
+        <field name="name">Vacaciones</field>
+        <field name="sequence" eval="30"/>
+        <field name="amount_percentage_base">contract.wage / 2</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">4.17</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_provision_indemnizacion_quincenal" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">INDEM</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_008"/>
+        <field name="name">Indemnizacion</field>
+        <field name="sequence" eval="30"/>
+        <field name="amount_percentage_base">contract.wage/2</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">8.3333</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_provision_aguinaldo_quincenal" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">AGUI</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_008"/>
+        <field name="name">Aguinaldo</field>
+        <field name="sequence" eval="30"/>
+        <field name="amount_percentage_base">contract.wage/2</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">8.3333</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+    <record id="hr_salary_rule_provision_bono14_quincenal" model="hr.salary.rule">
+        <field name="amount_select">percentage</field>
+        <field name="code">B14</field>
+        <field name="condition_select">none</field>
+        <field name="appears_on_payslip" eval="False"/>
+        <field name="category_id" ref="salary_rule_category_008"/>
+        <field name="name">Bono 14</field>
+        <field name="sequence" eval="30"/>
+        <field name="amount_percentage_base">contract.wage/2</field>
+        <field name="quantity">1.00</field>
+        <field name="amount_percentage">8.3333</field>
+        <field name="struct_id" ref="structure_worker_gt_quincenal"/>
+    </record>
+
+</odoo>
