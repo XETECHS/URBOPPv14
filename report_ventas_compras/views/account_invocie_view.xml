@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="account_invoice_report_form" model="ir.ui.view">
+		<field name="name">account.invoice.form.inherit1</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='ref']" position="replace">
+				<field name="ref" invisible="1"/>
+			</xpath>
+			<xpath expr="//field[@name='partner_id']" position="after">
+				<field name="tipo_documento" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))], 'required': [('move_type', 'in', ('in_invoice', 'in_refund', 'in_receipt'))]}"/>
+				<label for="serie_factura" string="Factura del Proveedor" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))], 'required': [('move_type', 'in', ('in_invoice', 'in_refund', 'in_receipt'))]}"/>
+				<div>
+					<field name="serie_factura" class="serie_alineado" placeholder="Serie" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))], 'required': [('move_type', 'in', ('in_invoice', 'in_refund', 'in_receipt'))]}"/>
+					<field name="num_factura" class="numero_alineado" placeholder="Numero" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))], 'required': [('move_type', 'in', ('in_invoice', 'in_refund', 'in_receipt'))]}"/>
+				</div>
+			</xpath>
+		</field>
+	</record>
+</odoo>

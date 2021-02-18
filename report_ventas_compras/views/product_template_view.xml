@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="product_gasto_form_view_inherit1" model="ir.ui.view">
+		<field name="name">product.gasto.form.inherit1</field>
+		<field name="model">product.template</field>
+		<field name="priority">5</field>
+		<field name="inherit_id" ref="product.product_template_only_form_view"/>
+		<field name="arch" type="xml">
+			<field name="property_account_expense_id" position="after">
+				<field name="tipo_gasto"/>
+			</field>
+		</field>
+	</record>
+</odoo>
