@@ -12,7 +12,7 @@
     'version': '1.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['contacts', 'crm', 'utm', 'sale_management','account'],
+    'depends': ['base','contacts', 'crm', 'utm', 'sale_management','account', 'account_accountant'],
 
     # always loaded
     'data': [
