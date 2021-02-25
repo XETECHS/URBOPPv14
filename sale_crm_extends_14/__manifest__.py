@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Sale CRM Extends",
+    'name': "Sale CRM Extends and Other Fields",
 
-    'author': "My Company",
+    'author': "XETECHS",
     'website': "http://www.yourcompany.com",
 
     # Categories can be used to filter modules in modules listing
@@ -12,7 +12,7 @@
     'version': '1.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['contacts', 'crm', 'utm', 'sale_management'],
+    'depends': ['contacts', 'crm', 'utm', 'sale_management','account'],
 
     # always loaded
     'data': [
