@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
                 <field name="tag_ids" position="after">
-                    <field name="apartment" required="1"/>
+                    <field name="apartment" required="0"/>
                 </field>
             </field>
         </record>
