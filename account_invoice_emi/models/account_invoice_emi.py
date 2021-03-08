@@ -71,8 +71,7 @@ class Account_Invoice_EMI(models.Model):
     journal_id = fields.Many2one('account.journal', string="Invoice Journal", track_visibility='onchange')
     start_date = fields.Date(string="Start Date", track_visibility='onchange')
     emi_tax_ids = fields.Many2many('account.tax', 'emi_line_tax', 'emi_line_id', 'tax_id', string='Taxes',
-                                   domain=[('type_tax_use', '!=', 'none'), '|', ('active', '=', False), ('active', '=', True)],
-                                   default=[2])
+                                   domain=[('type_tax_use', '!=', 'none'), '|', ('active', '=', False), ('active', '=', True)])
     inv_description = fields.Char(string="Invoice Description", required=True)
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account',
                                           help="The analytic account related to a sales order.")
