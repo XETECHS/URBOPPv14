@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <report
+                id="action_emi_report"
+                model="account.invoice.emi"
+                string="Report EMI"
+                report_type="qweb-pdf"
+                name="account_invoice_emi.report_emi_format"
+                file="account_invoice_emi.report_emi_format"
+                print_report_name="(object.name)"
+        />
+
+        <record id="fel_paper_format" model="report.paperformat">
+            <field name="name">FEL paper format PDF</field>
+            <field name="default" eval="True"/>
+            <field name="format">Letter</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+            <field name="report_ids" eval="[(4, ref('account_invoice_emi.action_emi_report'))]"/>
+        </record>
+
+    </data>
+</odoo>

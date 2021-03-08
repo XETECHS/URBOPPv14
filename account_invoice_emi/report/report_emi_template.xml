@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_emi_document">
+            <t t-call="web.basic_layout">
+                <t t-set="o" t-value="o.with_context(lang=lang)" />
+                <div class="header"></div>
+                <div class="page">
+                    <style>
+
+                        hr {
+                            border-top: 2px solid gray;
+                        }
+
+                        .bd {
+                            border-right: 1px solid black;
+                            border-left: 1px solid black;
+                            border-bottom: 1px solid black;
+                        }
+                        .bi {
+                            border-left: 1px solid black;
+                        }
+                    </style>
+
+                    <div class="row justify-content-between">
+                        <div class="col-3 text-left" align="center">
+                            <img class="img-fluid" t-if="o.so_id.company_id.logo" t-att-src="image_data_uri(o.so_id.company_id.logo)"  alt="Logo" style="max-height:90px;"/>
+                        </div>
+                        <div class="col-5 text-left" style="border-left:1px solid lightgrey;">
+                            <span style="font-size: 14px; font-weight:bold;" t-field="o.so_id.company_id.name"/><br/>
+                            <span style="font-size: 13px;">NIT: <span t-field="o.so_id.company_id.vat"/></span><br/>
+                            <span style="font-size: 13px;" t-field="o.so_id.company_id.street"/><br/>
+                            <span style="font-size: 13px;" t-field="o.so_id.company_id.city"/>,
+                            <span style="font-size: 13px;" t-field="o.so_id.company_id.country_id.name"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <br/>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <center>
+                        <t t-if="o.partner_id.lang == 'es_ES'">
+                            <h3>Estado de Cuenta Proyecto <span t-field="o.title"/></h3>
+                        </t>
+                        <t t-if="o.partner_id.lang == 'en_US'">
+                            <h3>Project Account Statement <span t-field="o.title"/></h3>
+                        </t>
+                    </center>
+                    <br/><br/>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="width:200px"><strong>EMI No.:</strong></td>
+                                <td style="width:300px"><span t-field="o.name"/></td>
+                                <td style="width:200px"><strong>SO Amount:</strong></td>
+                                <td style="width:300px"><span t-field="o.so_amount"/></td>
+                            </tr>
+                            <tr>
+                                <td style="width:200px"><strong>SO:</strong></td>
+                                <td style="width:300px"><span t-field="o.so_id.name"/></td>
+                                <td style="width:200px"><strong>Start date:</strong></td>
+                                <td style="width:300px"><span t-field="o.start_date"/></td>
+                            </tr>
+                            <tr>
+                                <td style="width:200px"><strong>Customer:</strong></td>
+                                <td style="width:300px"><span t-field="o.partner_id.name"/></td>
+                                <td style="width:200px"><strong>EMI Type:</strong></td>
+                                <td style="width:300px"><span t-field="o.type"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%" class="text-center" style="border: 1px solid black; font-size: 14px">No.</th>
+                                            <th width="30%" class="text-center" style="border: 1px solid black; font-size: 14px">Invoice No.</th>
+                                            <th width="10%" class="text-center" style="border: 1px solid black; font-size: 14px">Date Invoice</th>
+                                            <th width="10%" class="text-center" style="border: 1px solid black; font-size: 14px">Invoice Amount</th>
+                                            <th width="10%" class="text-center" style="border: 1px solid black; font-size: 14px">Interest Amount</th>
+                                            <th width="10%" class="text-center" style="border: 1px solid black; font-size: 14px">Total</th>
+                                            <th width="10%" class="text-center" style="border: 1px solid black; font-size: 14px">Invoice Status</th>
+                                            <th width="10%" class="text-center" style="border: 1px solid black; font-size: 14px">Payment Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <t t-set="current_subtotal" t-value="0"/>
+                                        <t t-set="lines" t-value="o.inv_emi_lines"/>
+                                        <t t-foreach="lines" t-as="line">
+                                            <tr>
+                                                <td class="text-center bd"><span t-field="line.sequence"/></td>
+                                                <t t-if="not line.invoice_id">
+                                                  <td class="text-center bd">Draft</td>
+                                                </t>
+                                                <t t-if="line.invoice_id">
+                                                  <td class="text-center bd"><span t-field="line.invoice_id.name"/></td>
+                                                </t>
+                                                <td class="text-center bd"><span t-field="line.date"/></td>
+                                                <td class="text-right bd"><span t-field="line.inv_amount"/> </td>
+                                                <td class="text-right bd"><span t-field="line.interest_amount"/> </td>
+                                                <td class="text-right bd"><span t-field="line.total"/> </td>
+                                                <t t-if="not line.invoice_id">
+                                                  <td class="text-center bd">Draft</td>
+                                                  <td class="text-center bd">Not Paid</td>
+                                                </t>
+                                                <t t-if="line.invoice_id">
+                                                    <td class="text-center bd"><span t-field="line.invoice_id.state"/> </td>
+                                                    <td class="text-center bd"><span t-field="line.invoice_id.payment_state"/> </td>
+                                                </t>
+                                                <t t-set="current_subtotal"  t-value="round((current_subtotal + line.total), 2)"/>
+                                            </tr>
+                                        </t>
+                                        <tr>
+                                          <td class="text-center bd"></td>
+                                    <td class="text-center bd"></td>
+                                    <td class="text-center bd"></td>
+                                    <td class="text-center bd"></td>
+                                    <td class="text-center bd"></td>
+                                    <td class="text-right bd"><span t-esc="current_subtotal"/> </td>
+                                    <td class="text-center bd"></td>
+                                    <td class="text-center bd"></td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_emi_format">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.partner_id.lang"/>
+                    <t t-call="account_invoice_emi.report_emi_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
