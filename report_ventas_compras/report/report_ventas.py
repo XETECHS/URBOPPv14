@@ -110,7 +110,7 @@ class ReportSaleBook(models.AbstractModel):
             if len(cad) > 1:
                 numero = cad[2]
 
-            if inv.type == "out_refund":
+            if inv.move_type == "out_refund":
                 tipo = 'NC' if inv.amount_untaxed >= 0 else 'ND'
 
             for line in inv.invoice_line_ids:

@@ -124,7 +124,7 @@ class ReportPurchaseBook(models.AbstractModel):
             # tipo_doc = inv.tipo_documento
             # if inv.type != 'in_invoice':
             #     tipo_doc = 'NC'
-            tipo_doc = 'NC' if inv.type != 'in_invoice' else inv.tipo_documento
+            tipo_doc = 'NC' if inv.move_type != 'in_invoice' else inv.tipo_documento
             bienes_gravados = 0.00
             servicios_gravados = 0.00
             bienes_exentos = 0.00
