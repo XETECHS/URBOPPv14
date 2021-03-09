@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <menuitem id="report_ventas_compras_pdf" name="Libros Ventas/Compras" parent="account.menu_finance_reports"/>
+    <menuitem id="report_ventas_compras.report_ventas_compras_pdf" name="Libros Ventas/Compras" parent="account.menu_finance_reports" sequence="1" groups="account.group_account_user"/>
 
     <record id="wizard_ventas_compras_form" model="ir.ui.view">
         <field name="name">wizard.ventas.compras.form</field>
@@ -63,7 +63,7 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem action="action_libro_ventas_pdf" id="menu_wizard_libro_ventas_compras" parent="report_ventas_compras_pdf"/>
+    <menuitem action="action_libro_ventas_pdf" id="menu_wizard_libro_ventas_compras" parent="report_ventas_compras.report_ventas_compras_pdf"/>
     
     <record id="action_libro_compras_pdf" model="ir.actions.act_window">
         <field name="name">Libro de Compras PDF</field>
@@ -76,6 +76,6 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem action="action_libro_compras_pdf" id="menu_wizard_libro_ventas_compras_dos" parent="report_ventas_compras_pdf"/>
+    <menuitem action="action_libro_compras_pdf" id="menu_wizard_libro_ventas_compras_dos" parent="report_ventas_compras.report_ventas_compras_pdf"/>
 
 </odoo>

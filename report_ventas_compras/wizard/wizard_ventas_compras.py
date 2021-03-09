@@ -13,7 +13,7 @@ class WizardVentasCompras(models.TransientModel):
 
     company_id = fields.Many2one(
         'res.company', 'Empresa', required=True,
-        default=lambda self: self.env.user.company_id)
+        default=lambda self: self.env.company)
     journal_ids = fields.Many2many(
         'account.journal', 'book_journal_rel', 'wizard_id', 'journal_id',
         'Diarios', required=True)
@@ -48,7 +48,7 @@ class WizardVentasCompras(models.TransientModel):
     def _change_type_book_domain_journal_ids(self):
         """Force domain for the 'journal_id' field"""
         self.journal_ids = [(6, 0, [])]
-        domain = [('type', 'in', ['sale', 'sale_refund', 'cash'])]
+        domain = [('type', 'in', ['sale', 'sale_refund'])]
         if self.type_book == 'purchase':
             domain = [('type', 'in', ['purchase', 'purchase_refund'])]
         return {'domain': {'journal_ids': domain}}

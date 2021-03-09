@@ -124,7 +124,7 @@ class ReportPurchaseBook(models.AbstractModel):
             # tipo_doc = inv.tipo_documento
             # if inv.type != 'in_invoice':
             #     tipo_doc = 'NC'
-            tipo_doc = 'NC' if inv.move_type != 'in_invoice' else inv.tipo_documento
+            tipo_doc = 'NC' if inv.type != 'in_invoice' else inv.tipo_documento
             bienes_gravados = 0.00
             servicios_gravados = 0.00
             bienes_exentos = 0.00
@@ -166,15 +166,16 @@ class ReportPurchaseBook(models.AbstractModel):
                 estado = 'A'
 
             for line in inv.invoice_line_ids:
-                precio = (line.price_unit * (1-(
-                    line.discount or 0.0)/100.0)) * tipo_cambio
+                precio = line.price_unit if inv.state != 'cancel' else 0.0
+                if inv.currency_id != empresa.currency_id:
+                    precio = inv.currency_id._convert(precio, empresa.currency_id, empresa, inv.invoice_date)
                 precio = precio if estado != 'A' else 0.0
                 if tipo_doc == 'NC':
                     precio = precio * -1
                 taxes = line.tax_ids.compute_all(
                     precio, empresa.currency_id, line.quantity,
                     line.product_id, inv.partner_id)
-                if line.product_id.tipo_gasto == 'compra':
+                if line.tipo_gasto == 'compra':
                     if inv.tipo_documento == 'FPC':
                         fac_pc += 1
                         for i in taxes['taxes']:
@@ -207,7 +208,7 @@ class ReportPurchaseBook(models.AbstractModel):
                         else:
                             bienes_exentos += taxes['total_excluded']
                             total_bienes_e += taxes['total_excluded']
-                elif line.product_id.tipo_gasto == 'servicio':
+                elif line.tipo_gasto == 'servicio':
                     if inv.tipo_documento == 'FPC':
                         fac_pc += 1
                         for i in taxes['taxes']:
@@ -240,7 +241,7 @@ class ReportPurchaseBook(models.AbstractModel):
                         else:
                             servicios_exentos += taxes['total_excluded']
                             total_serv_e += taxes['total_excluded']
-                elif line.product_id.tipo_gasto == 'combustibles':
+                elif line.tipo_gasto == 'combustibles':
                     if inv.tipo_documento == 'FPC':
                         fac_pc += 1
                         for i in taxes['taxes']:
@@ -271,7 +272,7 @@ class ReportPurchaseBook(models.AbstractModel):
                         else:
                             bienes_exentos += taxes['total_excluded']
                             total_comb_e += taxes['total_excluded']
-                elif line.product_id.tipo_gasto == 'importacion':
+                elif line.tipo_gasto == 'importacion':
                     if inv.tipo_documento == 'FPC':
                         fac_pc += 1
                         for i in taxes['taxes']:

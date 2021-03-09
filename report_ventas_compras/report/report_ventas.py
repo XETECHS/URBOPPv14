@@ -16,8 +16,6 @@ class ReportSaleBook(models.AbstractModel):
             company_id = self.env.user.company_id
         else:
             company_id = self.env['res.company'].browse(company_id[0])
-
-        date = self._get_date(data)
         data, ultima = self.generate_records(data)
         model = self.env.context.get('active_model')
         docs = self.env[model].browse(self.env.context.get('active_id'))
@@ -30,49 +28,11 @@ class ReportSaleBook(models.AbstractModel):
             'ultima': ultima,
             'format_price': self._format_price,
             'company_id': company_id,
-            'date': date
+
         }
         return docargs
 
-    def _get_date(self, data):
-        date_from = datetime.strptime(data['form']['date_from'], DEFAULT_SERVER_DATE_FORMAT).strftime("%d de %B de %Y")
-        date_to = datetime.strptime(data['form']['date_to'], DEFAULT_SERVER_DATE_FORMAT).strftime("%d de %B de %Y")
-        months = {'january': 'enero', 'february': 'febrero', 'march': 'marzo', 'april': 'abril', 'may': 'mayo',
-                  'june': 'junio', 'july': 'julio', 'august': 'agosto', 'september': 'septiembre',
-                  'november': 'noviembre', 'december': 'diciembre'}
-        for k, v in months.items(): date_from = date_from.lower().replace(k, v)
-        for k, v in months.items(): date_to = date_to.lower().replace(k, v)
-        return 'Del {} al {}'.format(date_from, date_to)
-
-    def _get_retencion(self, invoice_id):
-        query = """
-            SELECT
-                SUM(payment.id) as retencion
-            FROM account_payment payment
-            JOIN account_move move ON move.id = payment.move_id
-            JOIN account_move_line line ON line.move_id = move.id
-            JOIN account_partial_reconcile part ON
-                part.debit_move_id = line.id
-                OR
-                part.credit_move_id = line.id
-            JOIN account_move_line counterpart_line ON
-                part.debit_move_id = counterpart_line.id
-                OR
-                part.credit_move_id = counterpart_line.id
-            JOIN account_move invoice ON invoice.id = counterpart_line.move_id
-            JOIN account_account account ON account.id = line.account_id JOIN account_journal journal ON move.journal_id = journal.id
-            WHERE account.internal_type IN ('receivable', 'payable')
-                AND line.id != counterpart_line.id
-                AND invoice.id = %s AND journal.code='RTISR';
-        """
-        self.env.cr.execute(query, (invoice_id,))
-        results = self.env.cr.dictfetchall()
-        if results:
-            return results[0]['retencion']
-        else:
-            return 0.0
-
-    # @api.multi
+    #@api.multi
     def _format_price(self, price, currency_id):
         if not price:
             return '0.00'
@@ -81,7 +41,7 @@ class ReportSaleBook(models.AbstractModel):
         amount_f = amount_f.replace(currency_id.symbol, '').strip()
         return amount_f
 
-    # @api.multi
+    #@api.multi
     def generate_records(self, data):
         result = []
         if not data.get('form', False):
@@ -110,7 +70,6 @@ class ReportSaleBook(models.AbstractModel):
         total_nd_exentos = 0.00
         total_nd_iva = 0.00
         total_nd = 0.00
-        total_ret = 0.00
         journal_ids = data['form']['journal_ids']
         date_from = data['form']['date_from']
         date_to = data['form']['date_to']
@@ -119,15 +78,14 @@ class ReportSaleBook(models.AbstractModel):
         folio = data['form']['folio_inicial']
         facturas = self.env['account.move'].search(
             [('state', 'in', ['posted', 'cancel']),
-             ('journal_id', 'in', journal_ids),
-             ('date', '>=', date_from),
-             ('date', '<=', date_to),
-             ('company_id', '=', empresa.id)], order='id')
+                ('journal_id', 'in', journal_ids),
+                ('invoice_date', '>=', date_from),
+                ('invoice_date', '<=', date_to),
+                ('company_id', '=', empresa.id)], order='id')
         establecimientos = ", ".join([
             jou.name for jou in self.env['account.journal'].browse(
                 journal_ids)])
 
-        i = 1
         for inv in facturas:
             bien_local_gravado = 0.00
             servicio_local_gravado = 0.00
@@ -145,25 +103,21 @@ class ReportSaleBook(models.AbstractModel):
             # amount_g = 0.00
             # amount_e = 0.00
             # amount_iva = 0.00
-            tipo = inv.journal_id.name
-            serie = inv.fel_serie
-            numero = inv.fel_no
-            retencion = (inv.amount_total if inv.journal_id.code == 'RTISR' else 0.0) * -1
-            # SI es retenciön chequear que sea de clientes
-            # if retencion and inv.payment_id.payment_type != 'inbound':
-            #     continue
-            total_ret += retencion
+            tipo = "FC"
+            cad = str(inv.name or '').split('/')
+            serie = cad[0]
+            numero = cad[0]
+            if len(cad) > 1:
+                numero = cad[2]
 
-            if inv.move_type == "out_refund":
+            if inv.type == "out_refund":
                 tipo = 'NC' if inv.amount_untaxed >= 0 else 'ND'
 
             for line in inv.invoice_line_ids:
                 precio = line.price_unit if inv.state != 'cancel' else 0.0
                 if inv.currency_id != empresa.currency_id:
-                    #precio = inv.currency_id.compute(
-                    #    precio, empresa.currency_id)
                     precio = inv.currency_id._convert(precio, empresa.currency_id, empresa, inv.invoice_date)
-                precio = precio * (1 - (line.discount or 0.0) / 100.0)
+                precio = precio * (1-(line.discount or 0.0)/100.0)
                 if tipo == 'NC':
                     precio = precio * -1
                 taxes = line.tax_ids.compute_all(
@@ -174,7 +128,7 @@ class ReportSaleBook(models.AbstractModel):
                 if line.tax_ids:
                     for tax in taxes['taxes']:
                         aux_iva += tax['amount']
-                if line.product_id.tipo_gasto == "compra":
+                if line.tipo_gasto == "compra":
                     if line.tax_ids:
                         bien_local_gravado += aux_gravado
                         iva_bien_l += aux_iva
@@ -195,7 +149,7 @@ class ReportSaleBook(models.AbstractModel):
                             total_nd_exentos += aux_gravado
                         else:
                             total_bienes_exentos += aux_gravado
-                elif line.product_id.tipo_gasto == "servicio":
+                elif line.tipo_gasto == "servicio":
                     if line.tax_ids:
                         servicio_local_gravado += aux_gravado
                         iva_servicio_l += aux_iva
@@ -216,7 +170,7 @@ class ReportSaleBook(models.AbstractModel):
                             total_nd_exentos += aux_gravado
                         else:
                             total_serv_exentos += aux_gravado
-                elif line.product_id.tipo_gasto == "exportacion":
+                elif line.tipo_gasto == "exportacion":
                     if line.product_id.type == "service":
                         if line.tax_ids:
                             servicio_expo_gravada += aux_gravado
@@ -254,7 +208,6 @@ class ReportSaleBook(models.AbstractModel):
                                 bien_expo_gravada, servicio_expo_gravada,
                                 bien_expo_exenta, servicio_expo_exento,
                                 total_iva])
-            date = inv.invoice_date if inv.invoice_date else inv.date
             linea = {
                 'company': empresa.name.encode('ascii', 'ignore') or "",
                 'nit': empresa.vat or "",
@@ -263,11 +216,11 @@ class ReportSaleBook(models.AbstractModel):
                 'establecimientos': establecimientos,
                 # 'mes': mes,
                 'fecha': datetime.strptime(
-                    str(date),
+                    str(inv.invoice_date),
                     DEFAULT_SERVER_DATE_FORMAT).strftime(date_format),
                 'tipo': tipo,
                 'serie': serie,
-                'numero': numero if numero else inv.name,
+                'numero': numero,
                 'nit_cliente': inv.partner_id.vat or "C/F",
                 'cliente': str(inv.partner_id.name).encode('ascii', 'ignore'),
                 'bienes_gravados': bien_local_gravado,
@@ -279,11 +232,8 @@ class ReportSaleBook(models.AbstractModel):
                 'bienes_e_exentos': bien_expo_exenta,
                 'servicios_e_exentos': servicio_expo_exento,
                 'iva': total_iva,
-                'subtotal': amount_total + retencion,
-                'no': i,
-                'retencion': retencion
+                'subtotal': amount_total,
             }
-            i += 1
             result.append(linea)
         total_bienes = sum([total_bienes_gravados, total_bienes_exentos,
                             total_bienes_iva])
@@ -300,7 +250,7 @@ class ReportSaleBook(models.AbstractModel):
         total_imp = sum([total_bienes_iva, total_serv_iva, total_nc_iva,
                          total_nd_iva, total_expo_iva])
         linea = {
-            'cliente': "Totales",
+            'cliente': "**Ultima Linea**",
             'total_bienes_gravados': total_bienes_gravados,
             'total_bienes_exentos': total_bienes_exentos,
             'total_bienes_iva': total_bienes_iva,
@@ -326,23 +276,6 @@ class ReportSaleBook(models.AbstractModel):
             'total_exento': total_exento,
             'total_iva': sum([total_bienes_iva, total_serv_iva,
                               total_nc_iva, total_nd_iva, total_expo_iva]),
-            'total_total': sum([total_gravado, total_exento, total_imp, total_ret]),
-            'total_ret': total_ret
+            'total_total': sum([total_gravado, total_exento, total_imp])
         }
-        # split in folios
-        results = []
-        folio = 1
-        i = 1
-        rows = []
-        for row in result:
-            rows.append(row)
-            if i == 34:
-                results.append([folio, rows])
-                rows = []
-                i = 1
-                folio += 1
-            else:
-                i += 1
-        if len(rows) > 0:
-            results.append([folio, rows])
-        return results, linea
+        return result, linea
