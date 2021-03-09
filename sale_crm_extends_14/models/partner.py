@@ -8,11 +8,11 @@ class ResPartner(models.Model):
     mobile = fields.Char(required=True)
 
 
-class AccountMove(models.Model):
-    _inherit = 'account.move'
+#class AccountMove(models.Model):
+#    _inherit = 'account.move'
 
-    fel_serie = fields.Integer(string='Serie FEL')
-    fel_no = fields.Integer(string='No. FEL')
+#    fel_serie = fields.Integer(string='Serie FEL')
+#    fel_no = fields.Integer(string='No. FEL')
 
 
    # @api.one
