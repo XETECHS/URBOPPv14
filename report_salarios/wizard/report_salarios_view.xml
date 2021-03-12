@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<odoo>
+<data>
+	<record id='view_report_salarios' model="ir.ui.view">
+        <field name="name">report.salarios.form</field>
+        <field name="model">wizard.salarios</field>
+        <field name="arch" type="xml">
+        	<form string="Sales Report" >
+				<group>
+					<group>
+						<field name="periodo_id"/>
+						<field name="company_id"/>
+					</group>
+                </group>
+				<group>
+					<separator colspan="4" string="Empleados"/>
+					<field name="empleados_ids" nolabel="1"/>
+				</group>
+				<footer>
+					<button class="oe_highlight" name="print_report" string="General PDF" type="object"/>
+					<button string="Cancelar" special="cancel"/>
+				</footer>
+           </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_report_salarios">
+    	<field name="name">Libro de Salarios</field>
+        <field name="res_model">wizard.salarios</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+	<menuitem action="action_report_salarios" id="menu_report_salarios" parent="hr_payroll.menu_hr_payroll_report" groups="hr_payroll.group_hr_payroll_user,hr_payroll.group_hr_payroll_manager"/>
+
+	</data>
+</odoo>

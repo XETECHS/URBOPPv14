@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<odoo>
+   <data>
+	<report string="Reporte de Nominas"
+		id="action_reporte_de_nominas"
+		model="hr.payslip.run"
+		report_type="qweb-pdf"
+		file="report_salarios.reporte_de_nominas"
+		name="report_salarios.template_reporte_de_nominas"
+	/>
+
+	<report string="Reporte Liquido"
+		id="action_reporte_liquido"
+		model="hr.payslip.run"
+		report_type="qweb-pdf"
+		file="report_salarios.reporte_liquido"
+		name="report_salarios.template_reporte_liquido"
+	/>
+
+    <report string="Libro de Salarios"
+		id="action_reporte_libro_de_salarios"
+		model="wizard.salarios"
+		report_type="qweb-pdf"
+		file="report_salarios.reporte_libro_de_salarios"
+		name="report_salarios.template_reporte_libro_de_salarios"
+	/>
+
+
+<record id="custom_paperformat" model="report.paperformat">
+    <field name="name">Reportes</field>
+    <field name="default" eval="True" />
+    <field name="format">custom</field>
+    <field name="page_height">800</field>
+    <field name="page_width">300</field>
+    <field name="orientation">Landscape</field>
+    <field name="margin_top">40</field>
+    <field name="margin_bottom">20</field>
+    <field name="margin_left">7</field>
+    <field name="margin_right">7</field>
+    <field name="header_line" eval="False" />
+    <field name="header_spacing">35</field>
+    <field name="dpi">90</field>
+    <field name="report_ids" eval="[(4, ref('action_reporte_libro_de_salarios'))]"/>
+</record>
+
+<!--record id="report_salarios.action_reporte_de_nominas" model="ir.actions.report.xml">
+    <field name="paperformat_id" ref="report_salarios.custom_paperformat" />
+</record>
+
+<record id="report_salarios.action_reporte_libro_de_salarios" model="ir.actions.report.xml">
+    <field name="paperformat_id" ref="report_salarios.custom_paperformat" />
+</record-->
+
+   </data>
+</odoo>

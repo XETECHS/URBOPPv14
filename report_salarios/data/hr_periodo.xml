@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Periodos 2020-->
+    <record id="enero_2020" model="hr.periodo">
+        <field name="name">Enero 2,020</field>
+        <field name="from_date">2020-01-01</field>
+        <field name="to_date">2020-01-31</field>
+    </record>
+
+    <record id="febrero_2020" model="hr.periodo">
+        <field name="name">Febrero 2,020</field>
+        <field name="from_date">2020-02-01</field>
+        <field name="to_date">2020-02-29</field>
+    </record>
+
+    <record id="marzo_2020" model="hr.periodo">
+        <field name="name">Marzo 2,020</field>
+        <field name="from_date">2020-03-01</field>
+        <field name="to_date">2020-03-31</field>
+    </record>
+
+    <record id="abril_2020" model="hr.periodo">
+        <field name="name">Abril 2,020</field>
+        <field name="from_date">2020-04-01</field>
+        <field name="to_date">2020-04-30</field>
+    </record>
+
+    <record id="mayo_2020" model="hr.periodo">
+        <field name="name">Mayo 2,020</field>
+        <field name="from_date">2020-05-01</field>
+        <field name="to_date">2020-05-31</field>
+    </record>
+
+    <record id="junio_2020" model="hr.periodo">
+        <field name="name">Junio 2,020</field>
+        <field name="from_date">2020-06-01</field>
+        <field name="to_date">2020-06-30</field>
+    </record>
+
+    <record id="julio_2020" model="hr.periodo">
+        <field name="name">Julio 2,020</field>
+        <field name="from_date">2020-07-01</field>
+        <field name="to_date">2020-07-31</field>
+    </record>
+
+    <record id="agosto_2020" model="hr.periodo">
+        <field name="name">Agosto 2,020</field>
+        <field name="from_date">2020-08-01</field>
+        <field name="to_date">2020-08-31</field>
+    </record>
+
+    <record id="septiembre_2020" model="hr.periodo">
+        <field name="name">Septiembre 2,020</field>
+        <field name="from_date">2020-09-01</field>
+        <field name="to_date">2020-09-30</field>
+    </record>
+
+    <record id="octubre_2020" model="hr.periodo">
+        <field name="name">Octubre 2,020</field>
+        <field name="from_date">2020-10-01</field>
+        <field name="to_date">2020-10-31</field>
+    </record>
+
+    <record id="noviembre_2020" model="hr.periodo">
+        <field name="name">Noviembre 2,020</field>
+        <field name="from_date">2020-11-01</field>
+        <field name="to_date">2020-11-30</field>
+    </record>
+    <record id="diciembre_2020" model="hr.periodo">
+        <field name="name">Diciembre 2,020</field>
+        <field name="from_date">2020-12-01</field>
+        <field name="to_date">2020-12-31</field>
+    </record>
+</odoo>

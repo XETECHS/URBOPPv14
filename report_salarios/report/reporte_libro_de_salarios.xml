@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="template_reporte_libro_de_salarios">
+        <t t-call="web.html_container">
+            <t t-set="data_report_margin_top" t-value="12"/>
+            <t t-set="data_report_header_spacing" t-value="9"/>
+            <t t-set="data_report_dpi" t-value="110"/>
+            <t t-call="web.internal_layout">                
+                <!--<t t-call="report.external_layout">-->
+                <div class="page">
+                    <div style="margin-bottom: 50px;">
+                        <h2 style="font-size:15px">
+                            <center>
+                                <b>LIBRO DE SALARIOS PARA TRABAJADORES PERMANENTES</b>
+                            </center>
+                            <center>
+                                <b>AUTORIZADO POR EL MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL, SEGÚN ARTÍCULO 102 DEL
+                                    CÓDIGO
+                                    DE TRABAJO
+                                </b>
+                            </center>
+                        </h2>
+                    </div>
+
+                    <div style="margin-bottom:100px;">
+                        <div style="width: 20%; float: left; margin: auto;">
+                            <strong>Nombre del Empleado:</strong>
+                            <!--<span t-esc="data['empleado']"/>-->
+                        </div>
+                        <div style="width: 20%; float: left; margin: auto;">
+                            <strong>Edad:</strong>
+                            <!--<span t-esc="data['edad')"/>-->
+                        </div>
+                        <div style="width: 20%; float: left; margin: auto;">
+                            <strong>Sexo:</strong>
+                            <!--<span t-esc="data['sexo']"/>-->
+                        </div>
+                        <div style="width: 20%; float: left; margin: auto;">
+                            <strong>Nacionalidad:</strong>
+                            <!--<span t-esc="data['nacionalidad']"/>-->
+                        </div>
+                        <div style="width: 20%; float: left; margin: auto;">
+                            <strong>Ocupacion:</strong>
+                            <!--<span t-esc="data['ocupacion']"/>-->
+                        </div>
+
+                    </div>
+
+                    <div style="margin-bottom:160px">
+                        <div style="width: 20%; float: left; margin: auto;">
+                            <strong>No. Afiliacion IGSS:</strong>
+                            <!--<span t-esc="data['afiliacion_igss']"/>-->
+                        </div>
+                        <div style="width: 40%; float: left; margin: auto;">
+                            <strong>No. DPI:</strong>
+                            <!--<span t-esc="data['dpi']"/>-->
+                        </div>
+
+                        <div style="width: 20%; float: left; margin: auto;">
+                            <strong>Fecha de ingreso:</strong>
+                            <!--<span t-esc="data['fecha_ingreso']"/>-->
+                        </div>
+                        <div style="width: 20%; float: left; margin: auto;">
+                            <strong>Fecha de retiro:</strong>
+                            <!--<span t-esc="data['fecha_retiro']"/>-->
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered mb32" width="100%" border="1" align="center"
+                           style="border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th class="text-center" rowspan="2">No. de Orden
+                                    <br></br>
+                                </th>
+                                <th class="text-center" rowspan="2">Periodo de Trabajo</th>
+                                <th class="text-center" rowspan="2">Salario en Quetzales
+                                    <br></br>
+                                </th>
+                                <th class="text-center" colspan="3">HORAS TRABAJADAS
+                                    <br></br>
+                                </th>
+                                <th class="text-center" colspan="4">SALARIO DEVENGADO
+                                    <br></br>
+                                </th>
+                                <th class="text-center" colspan="4">DEDUCCIONES LEGALES
+                                    <br></br>
+                                </th>
+                                <th class="text-center" rowspan="2">Aguinaldo Decreto 42-92 y otros
+                                    <br></br>
+                                </th>
+                                <th class="text-center" rowspan="2">Bonificacion Incentivo
+                                    <br></br>
+                                </th>
+                                <th class="text-center" rowspan="2">Liquido a Recibir
+                                    <br></br>
+                                </th>
+                                <th class="text-center" rowspan="2">Firma</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Dias Trabajados</th>
+                                <th class="text-center">Ordinarias</th>
+                                <th class="text-center">Extra Ordinarias
+                                    <br></br>
+                                </th>
+                                <th class="text-center">Ordinarias</th>
+                                <th class="text-center">Extra Ordinaria</th>
+                                <th class="text-center">Septimos y Asuetos
+                                    <br></br>
+                                </th>
+                                <th class="text-center">Vacaciones</th>
+                                <th class="text-center">Salario Total
+                                    <br></br>
+                                </th>
+                                <th class="text-center">I.G.S.S
+                                    <br></br>
+                                </th>
+                                <th class="text-center">Otras Deducciones Legales
+                                    <br></br>
+                                </th>
+                                <th class="text-center">Total Deducciones
+                                    <br></br>
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-right"><span t-esc="data['item']"/></td>
+                                <td class="text-right"><span t-esc="data['periodo']"/></td>
+                                <td class="text-right"><span t-esc="data['salario_base']"/></td>
+                                <td class="text-right"><span t-esc="data['dias']"/></td>
+                                <td class="text-right"><span t-esc="data['hr_ordinaria']"/></td>
+                                <td class="text-right"><span t-esc="data['hr_extra']"/></td>
+                                <td class="text-right"><span t-esc="data['salario_ordinario']"/></td>
+                                <td class="text-right"><span t-esc="data['salario_extra']"/></td>
+                                <td class="text-right"><span t-esc="data['salario_asueto']"/></td>
+                                <td class="text-right"><span t-esc="data['vacaciones']"/></td>
+                                <td class="text-right"><span t-esc="data['salario_total']"/></td>
+                                <td class="text-right"><span t-esc="data['igss']"/></td>
+                                <td class="text-right"><span t-esc="data['otro_deduccion']"/></td>
+                                <td class="text-right"><span t-esc="data['total_deduccion']"/></td>
+                                <td class="text-right"><span t-esc="data['otros']"/></td>
+                                <td class="text-right"><span t-esc="data['incentivos']"/></td>
+                                <td class="text-right"><span t-esc="data['liquido_recibir']"/></td>
+                                <td class="text-right"> </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+
+                <!--</t>-->
+            </t>
+        </t>
+    </template>
+</odoo>

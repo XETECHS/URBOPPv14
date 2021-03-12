@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="template_reporte_liquido">
+        <t t-call="web.html_container">
+            <t t-set="data_report_margin_top" t-value="12"/>
+            <t t-set="data_report_header_spacing" t-value="9"/>
+            <t t-set="data_report_dpi" t-value="110"/>
+            <t t-call="web.internal_layout">
+            <!--<t t-foreach="docs" t-as="o">-->
+            <!--<t t-call="report.external_layout">-->
+            <div class="page">
+                <table class="table table-bordered mb32" style="table-layout:auto;">
+                    <t t-set="qty" t-value="0"/>
+                    <thead style="background-color:#d3d3d3;">
+                        <tr>
+                            <t t-set="colspan" t-value="5"/>
+                            <th class="text-center">No.</th>
+                            <th class="text-center">EMPLEADO</th>
+                            <th class="text-center">CUI</th>
+                            <th class="text-center">NIT</th>
+                            <th class="text-center">SALARIO LIQUIDO</th>
+                            <th class="text-center">CUENTA BANCARIA</th>
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                        <tr t-foreach="get_record_lines" t-as="l">
+                            <td><span t-esc="l.get('no')"/></td>
+                            <td><span t-esc="l.get('empleado')"/></td>
+                            <td><span t-esc="l.get('cui')"/></td>
+                            <td><span t-esc="l.get('nit')"/></td>
+                            <td class="text-right"><span t-esc="l.get('total_liquido')"/></td>
+                            <td><span t-esc="l.get('cuenta')"/></td>
+                            <t t-set="qty" t-value="qty + l.get('total_liquido')"/>
+                        </tr>
+                        <!--<tr>-->
+                        <!--<td><strong>**Total**</strong></td>-->
+                        <!--<td class="text-center"><span t-esc="qty"></span></td>-->
+                        <!--</tr>-->
+                    </tbody>
+                </table>
+                <div style="padding-right:200px">
+                    <div class="col-xs-6 pull-right">
+                        <table class="table table-condensed">
+                            <tr class="border-black" >
+                                <td>
+                                    <strong>**Total**</strong>
+                                </td>
+                                <td class="text-right"><span t-esc="qty"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </t>
+        </t>
+        <!--</t>-->
+    </template>
+</odoo>

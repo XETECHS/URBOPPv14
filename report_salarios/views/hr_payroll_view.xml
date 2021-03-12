@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_rule_tipo_form" model="ir.ui.view">
+            <field name="name">hr.rule.tipo.form</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='description']" position="after">
+                    <page string="Reporte">
+                        <group col="4" colspan="2">
+                            <field name="is_ingreso" attrs="{'invisible': ['|', ('is_descuento', '=', True), ('is_prestacion', '=', True)]}"/>
+                            <field name="is_descuento" attrs="{'invisible': ['|', ('is_ingreso', '=', True),  ('is_prestacion', '=', True)]}"/>
+							<field name="is_prestacion" attrs="{'invisible': ['|', ('is_ingreso', '=', True), ('is_descuento', '=', True)]}"/>
+                            <field name="tipo_ingreso" attrs="{'invisible': [('is_ingreso', '=', False)]}"/>
+                            <field name="tipo_descuento" attrs="{'invisible': [('is_descuento', '=', False)]}"/>
+							<field name="prestaciones" attrs="{'invisible': [('is_prestacion', '=', False)]}"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Peridos Libro de Salarios -->
+        <record id="view_hr_periodo_tree" model="ir.ui.view">
+            <field name="name">hr.periodo.tree</field>
+            <field name="model">hr.periodo</field>
+            <field name="arch" type="xml">
+                <tree string="Periodos de Libros de Salarios">
+                    <field name="name"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>                    
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_hr_periodo_form" model="ir.ui.view">
+            <field name="name">hr.periodo.form</field>
+            <field name="model">hr.periodo</field>
+            <field name="arch" type="xml">
+                <form string="Periodos Libro de Salarios">
+                <sheet>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="4">
+                        <label for="from_date" string="Periodo"/>
+                        <div>
+                            <field name="from_date" class="oe_inline"/> - <field name="to_date" class="oe_inline"/>
+                        </div>                        
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_periodos" model="ir.actions.act_window">
+            <field name="name">Periodos</field>
+            <field name="res_model">hr.periodo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_periodo_tree"/>            
+        </record>
+
+        <menuitem
+            id="menu_hr_periodos"
+            action="action_hr_periodos"
+            name="Periodos"
+            parent="hr_work_entry_contract.menu_hr_payroll_configuration"
+            sequence="25"
+        />
+        
+    </data>
+</odoo>

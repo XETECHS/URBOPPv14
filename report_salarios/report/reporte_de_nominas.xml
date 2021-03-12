@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="template_reporte_de_nominas">
+            <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="12"/>
+                <t t-set="data_report_header_spacing" t-value="9"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <t t-call="web.internal_layout">
+                    <![CDATA[
+                    <style>
+                    tr { page-break-inside: avoid !important; } td { page-break-inside: avoid !important; }
+                    </style>
+                    ]]>
+                    <div class="page">
+                        <table class="table" style="table-layout:auto;">
+                            <thead style="background-color:#d3d3d3;">
+                                <tr style="page-break-inside: avoid;">
+                                    <th style="border:1px solid" class="text-center">No</th>
+                                    <th style="border:1px solid" class="text-center">DPTO.</th>
+                                    <!--th style="border:1px solid" class="text-center">AREA</th-->
+                                    <th style="border:1px solid" class="text-center">EMPLEADO</th>
+                                    <th style="border:1px solid" class="text-center">ESTATUS</th>
+                                    <th style="border:1px solid" class="text-center">PUESTO</th>
+                                    <th style="border:1px solid" class="text-center">DIAS TRABAJADOS</th>
+                                    <th style="border:1px solid" class="text-center">SALARIO BASE</th>
+                                    <th style="border:1px solid" class="text-center">BONIFICACION DECRETO</th>
+                                    <th style="border:1px solid" class="text-center">OTRAS BONIFICACIONES</th>
+                                    <th style="border:1px solid" class="text-center">COMISIONES</th>
+                                    <th style="border:1px solid" class="text-center">CANTIDAD HORAS EXTRAS</th>
+                                    <th style="border:1px solid" class="text-center">VALOR HORA EXTRA</th>
+                                    <th style="border:1px solid" class="text-center">TOTAL HORAS EXTRAS</th>
+                                    <!--th style="border:1px solid" class="text-center">BONIFICACION POR HORAS</th>
+                                    <th style="border:1px solid" class="text-center">BONIFICACION POR RESULTADOS</th-->
+                                    <th style="border:1px solid" class="text-center">SALARIO BRUTO</th>
+                                    <th style="border:1px solid" class="text-center">IGSS LABORAL</th>
+                                    <th style="border:1px solid" class="text-center">ISR</th>
+                                    <th style="border:1px solid" class="text-center">DESCUENTO 1</th>
+                                    <th style="border:1px solid" class="text-center">DESCUENTO 2</th>
+                                    <th style="border:1px solid" class="text-center">DESCUENTO 3</th>
+                                    <th style="border:1px solid" class="text-center">DESCUENTO 4</th>
+                                    <th style="border:1px solid" class="text-center">SEGURO</th>
+                                    <th style="border:1px solid" class="text-center">ANTICIPO S/SUELDO</th>
+                                    <th style="border:1px solid" class="text-center">OTROS DESCUENTOS</th>
+                                    <th style="border:1px solid" class="text-center">TOTAL DEDUCCIONES</th>
+                                    <th style="border:1px solid" class="text-center">SALARIO LIQUIDO</th>
+                                    <th style="border:1px solid" class="text-center">IGSS PATRONAL</th>
+                                    <th style="border:1px solid" class="text-center">BONO ANUAL</th>
+                                    <th style="border:1px solid" class="text-center">AGUINALDO</th>
+                                    <th style="border:1px solid" class="text-center">INDEMNIZACION</th>
+                                    <th style="border:1px solid" class="text-center">VACACIONES</th>
+                                    <th style="border:1px solid" class="text-center">TOTAL ACUMULADO</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr t-foreach="get_reporte_de_nominas['data']" t-as="o" style="page-break-inside: avoid;">
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('no')"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('departamento')"/></td>
+                                    <!--td style="border:1px solid" class="text-center"><span t-esc="o.get('area')"/></td-->
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('empleado')"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('estatus')"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('puesto')"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('dia_trabajo')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('salario')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('boni_decreto')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('otras_bonifiacaciones')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('comisiones')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('qty_he')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('hr_extra')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('total_he')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <!--td style="border:1px solid" class="text-center"><span t-esc="o.get('bono_hrs')"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('bono_resultados')"/></td-->
+                                    <td style="border:1px solid;background-color:#DCDCDC" class="text-center"><span t-esc="o.get('total_ingresos')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('igss')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('isr')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('anticipo_1')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('anticipo_2')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('anticipo_3')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('otros_anticipos')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('prestamo')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('alimentos')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('otros_descuentos')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('total_descuentos')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid;background-color:#DCDCDC" class="text-center"><span t-esc="o.get('total_liquido')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('igss_patronal')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('bono_anual')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('aguinaldo')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('indemnizacion')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="o.get('vacaciones')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td style="border:1px solid;background-color:#DCDCDC" class="text-center"><span t-esc="o.get('total_acumulado')" t-options='{"widget": "float", "precision": 2}'/></td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr style="page-break-inside: avoid;">
+                                    <td style="border:0px solid"/>
+                                    <td style="border:0px solid"/>
+                                    <td style="border:0px solid"/>
+                                    <td style="border:0px solid"/>
+                                    <td style="border:0px solid"/>
+                                    <!--<td style="border:0px solid"/>
+                                    <td style="border:0px solid"/>-->
+                                    <td style="border:1px solid" class="text-center">TOTAL</td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_salario']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_boni_decreto']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_otras_boni']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_comisiones']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <!--<td style="border:0px solid"/>-->
+                                    <td style="border:0px solid"/>
+                                    <td style="border:0px solid"/>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_total_he']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <!--td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_bono_hrs']"></span></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_bono_resultados']"></span></td-->
+                                    <td style="border:1px solid;background-color:#DCDCDC" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_total_ingresos']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_igss']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_isr']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_anticipo_1']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_anticipo_2']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_anticipo_3']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_otros_anticipos']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_prestamo']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_alimentos']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_otros_descuentos']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_total_descuentos']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid;background-color:#DCDCDC" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_total_liquido']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_igss_patronal']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_bono_anual']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_aguinaldo']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_indemnizacion']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_vacaciones']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    <td style="border:1px solid;background-color:#DCDCDC" class="text-center"><span t-esc="get_reporte_de_nominas['total']['sum_total_acumulado']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </t>
+            </t>
+</template>
+</odoo>
