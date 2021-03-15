@@ -3,7 +3,7 @@
 	<data>
 	
 	<report id="journal_entry_report_id"
-				string="Print Journal Entries"
+				string="Imprimir Asientos Contables"
 				model="account.move"
 				report_type="qweb-pdf"
 				file="bi_print_journal_entries.journal_entry_report_template_id"
